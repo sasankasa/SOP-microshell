@@ -403,7 +403,7 @@ int main() {
     while (true) {
         char input[MAX_CMD_LEN];
         prompt();
-        if (read_input(&input, MAX_CMD_LEN) != 0) {
+        if (read_input(input, MAX_CMD_LEN) != 0) {
             if (feof(stdin)) {
                 printf("\n");
                 exit(0);
