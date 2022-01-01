@@ -56,7 +56,7 @@ int wait_for_child(pid_t p, char* cmd) {
                     jobs[i].pid = p;
                     jobs[i].cmd = malloc(strlen(cmd) + 1);
                     strcpy(jobs[i].cmd, cmd);
-                    printf("[%zu] Stopped %s\n", i, jobs[i].cmd);
+                    printf(" [%zu]       Stopped         %s\n", i, jobs[i].cmd);
                     break;
                 }
             }
