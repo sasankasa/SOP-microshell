@@ -180,7 +180,10 @@ void help(){
     printf("       by %sOliwia Michalik%s\n", BHGRN, WHT);
     printf("     functionalities to use:\n");
     printf("       %scd, help, exit, pwd\n", BBRW);
-    printf("    isdir, rm, whatis, 'pipe'%s\n", WHT);
+    printf("        isdir, rm, 'pipe'%s\n", WHT);
+    printf("         also supported:\n");
+    printf("   * signals (SIGINT, SIGTSTP)\n");
+    printf("            * pipes\n");
     printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
