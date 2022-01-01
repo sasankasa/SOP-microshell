@@ -48,7 +48,7 @@ int wait_for_child(pid_t p, char* cmd) {
             }
         } else {
             if (WIFSTOPPED(wstatus)) {
-                for (int i = 0; i < MAX_JOBS_COUNT; i++) {
+                for (size_t i = 0; i < MAX_JOBS_COUNT; i++) {
                     if (jobs[i].occupied) {
                         continue;
                     }
@@ -56,7 +56,7 @@ int wait_for_child(pid_t p, char* cmd) {
                     jobs[i].pid = p;
                     jobs[i].cmd = malloc(strlen(cmd) + 1);
                     strcpy(jobs[i].cmd, cmd);
-                    printf("[%d] Stopped %s\n", i, jobs[i].cmd);
+                    printf("[%zu] Stopped %s\n", i, jobs[i].cmd);
                     break;
                 }
             }
@@ -189,7 +189,7 @@ void execute_command(char *input){
     char my_argv[MAX_ARGS][MAX_CMD_LEN];
     char *argv[MAX_ARGS];
     for (size_t i = 0; i < MAX_ARGS; i++) {
-        argv[i] = &my_argv[i];
+        argv[i] = my_argv[i];
     }
     parse_args(input, argv, MAX_ARGS);
     char *command = argv[0];
@@ -206,7 +206,7 @@ void execute_command(char *input){
             return;
         }
         int id = atoi(argv[1]);
-        if (id < 0 || id > MAX_JOBS_COUNT || !jobs[id].occupied) {
+        if (id < 0 || id > (int) MAX_JOBS_COUNT || !jobs[id].occupied) {
             printf("fg: unknown job %d\n", id);
             return;
         }
