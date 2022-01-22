@@ -132,13 +132,13 @@ void prompt() {
 }
 
 void help(){
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
     printf("          %smicroshell.c%s\n", BGRN, WHT);
     printf("       by %sOliwia Michalik%s\n", BHGRN, WHT);
     printf("     functionalities to use:\n");
     printf("       %scd, help, exit, pwd\n", BBRW);
-    printf("         isdir, rm, tail%s\n", WHT);
-    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
+    printf("     isdir, rm,  tail, clear%s\n", WHT);
+    printf("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n");
 }
 
 void execute_command(char *input){
@@ -230,28 +230,31 @@ void execute_command(char *input){
             printf("'%s' is directory\n", argv[1]);
         } else
             printf("'%s' is NOT directory\n", argv[1]);
+    } else if(0==strcmp(command, "clear")){
+        printf("\e[1;1H\e[2J");
     } else {
-        pid_t p = fork();
-        if(p==-1){
-            perror("fork()\n");
-        } else if (p == 0){
-            int r = execvp(command, argv);
-            if (r == -1){
-                if (errno == ENOENT) {
-                    fprintf(stderr, "%s: command not found\n", argv[0]);
-                } else {
-                    perror("execvp() error");
+            pid_t p = fork();
+            if(p==-1){
+                perror("fork()\n");
+            } else if (p == 0){
+                int r = execvp(command, argv);
+                if (r == -1){
+                    if (errno == ENOENT) {
+                        fprintf(stderr, "%s: command not found\n", argv[0]);
+                    } else {
+                        perror("execvp() error");
+                    }
                 }
-            }
-            exit(0);
-        } else {
-            pid_t result = waitpid(p, NULL, 0);
-            if(result == -1){
-                perror("waitpid() error");
+                exit(0);
+            } else {
+                pid_t result = waitpid(p, NULL, 0);
+                if(result == -1){
+                    perror("waitpid() error");
+                }
             }
         }
     }
-}
+
 
 int read_input(char *input, int buf_size) {
     if (fgets(input, buf_size, stdin) == NULL) {
